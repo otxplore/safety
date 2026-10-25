@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#11120f">
+<meta name="description" content="OTXS Ride Safety & Readiness — prepare your motorcycle, gear and emergency essentials before every journey.">
+<title>OTXS Ride Safety & Readiness</title>
+<style>
+:root {
+  --bg:#11120f; --panel:#1b1d18; --panel2:#24261f;
+  --text:#f5f3eb; --muted:#a5a798; --orange:#ff9f32;
+  --yellow:#ffd166; --border:#34362d; --green:#9bd7a4;
+  --red:#ff8585;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+a{color:var(--yellow);text-decoration:none}
+button,input,select,textarea{font:inherit}
+button,.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button:hover,.btn:hover{border-color:var(--orange)}
+button.primary,.btn.primary{background:var(--orange);color:#18150e;border-color:var(--orange);font-weight:700}
+button.danger{color:var(--red)}
+header{position:sticky;top:0;z-index:10;background:rgba(17,18,15,.96);border-bottom:1px solid var(--border)}
+.nav{max-width:1160px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:1.35rem;font-weight:900;letter-spacing:1px;color:var(--text)}
+.brand span{color:var(--orange)}
+.nav-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nav-links a{color:var(--muted);font-size:.9rem}
+.nav-links a:hover{color:var(--yellow)}
+select,input,textarea{background:#12130f;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;width:100%;min-width:0}
+main{max-width:1160px;margin:auto;padding:28px 20px 55px}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:center;padding:20px 0 28px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-weight:800;font-size:.78rem;color:var(--orange)}
+h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.12;margin:12px 0}
+h1 span{color:var(--yellow)}
+p{margin-top:8px}
+.muted{color:var(--muted)}
+.hero-card,.panel,.checklist-card,.emergency-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px}
+.hero-card{background:linear-gradient(145deg,#29271c,#1b1d18)}
+.big-number{font-size:2.5rem;font-weight:800;color:var(--yellow)}
+.progress-track{height:10px;background:#10110e;border-radius:99px;overflow:hidden;margin:12px 0}
+.progress-bar{height:100%;width:0;background:var(--orange);transition:width .2s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{background:var(--panel2);border-radius:10px;padding:12px}
+.stat strong{font-size:1.35rem;display:block}
+.stat span{color:var(--muted);font-size:.8rem}
+.section-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:28px 0 14px}
+h2{font-size:1.4rem;margin:0}
+h3{margin:0 0 10px}
+.ride-bar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:.9rem;color:var(--muted)}
+.checklist-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.checklist-card h3{display:flex;align-items:center;gap:9px}
+.check-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.check-row:last-child{border-bottom:0}
+.check-row input{width:18px;height:18px;min-width:18px;margin-top:4px;accent-color:var(--orange)}
+.check-row span{flex:1}
+.check-row small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+.check-row.done span{text-decoration:line-through;color:var(--muted)}
+.tag{font-size:.72rem;border-radius:999px;padding:3px 8px;background:#37301e;color:var(--yellow);white-space:nowrap}
+.tag.critical{background:#402121;color:#ffb4a9}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.notice{padding:14px 16px;border:1px solid #65502b;background:#242015;color:#e9d9b5;border-radius:12px;margin-top:20px;font-size:.9rem}
+.warning{border-color:#6a3838;background:#281919;color:#ffd0c8}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+textarea{min-height:90px;resize:vertical}
+.emergency-card .field{margin:12px 0}
+.emergency-card .field:first-of-type{margin-top:8px}
+footer{border-top:1px solid var(--border);text-align:center;padding:24px 16px;color:var(--muted);font-size:.88rem}
+footer a{color:var(--yellow)}
+#toast{display:none;position:fixed;bottom:20px;right:20px;max-width:calc(100% - 40px);background:var(--yellow);color:#19160d;padding:12px 16px;border-radius:10px;font-weight:700;z-index:20}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.checklist-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.nav{align-items:flex-start;flex-direction:column}main{padding:20px 14px 40px}.ride-bar,.two-col{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.panel,.checklist-card,.emergency-card{padding:15px}}
+@media print{
+  header,.actions,.no-print,button,.nav-links{display:none!important}
+  body{background:white;color:#111}
+  main{max-width:none;padding:0}
+  .hero-card,.panel,.checklist-card,.emergency-card{background:white;color:#111;border:1px solid #bbb;break-inside:avoid}
+  .muted,label,.check-row small{color:#444}
+  .checklist-grid,.two-col{grid-template-columns:1fr 1fr}
+  .check-row{border-color:#ddd}
+  .notice{background:white;color:#333;border-color:#aaa}
+  a{color:#111}
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a class="brand" href="https://home.otxs.de">OTX<span>S</span></a>
+    <div class="nav-links">
+      <a href="https://home.otxs.de">Home</a>
+      <a href="https://trave.otxs.de">Travel</a>
+      <a href="https://adventure.otxs.de">Adventure</a>
+      <a href="https://ride-companion.otxs.de">Ride Companion</a>
+      <select id="appNav" aria-label="Explore OTXS apps" style="width:auto;max-width:180px">
+        <option value="">Explore apps…</option>
+        <option value="https://apps.otxs.de">All apps</option>
+        <option value="https://local.otxs.de">Local Guide</option>
+        <option value="https://planner.otxs.de">Trip Planner</option>
+        <option value="https://trip-cost.otxs.de">Trip Cost Calculator</option>
+        <option value="https://garage.otxs.de">Bike Maintenance</option>
+        <option value="https://roads.otxs.de">Road Conditions</option>
+        <option value="https://weather.otxs.de">Weather</option>
+      </select>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">OTXS · Ride Safety & Readiness</div>
+      <h1>Check your bike.<br><span>Prepare for the ride.</span></h1>
+      <p class="muted">A practical pre-ride checklist for motorcycle journeys, mountain roads, day trips and longer adventures. Tick off your essentials before you leave.</p>
+      <a href="#checklists" class="btn primary">Start your safety check ↓</a>
+    </div>
+    <div class="hero-card">
+      <div class="eyebrow">Current checklist</div>
+      <div class="big-number"><span id="percent">0</span>%</div>
+      <div class="muted" id="progressLabel">0 of 0 checks completed</div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="stats">
+        <div class="stat"><strong id="completedCount">0</strong><span>Completed</span></div>
+        <div class="stat"><strong id="criticalCount">0</strong><span>Critical left</span></div>
+        <div class="stat"><strong id="totalCount">0</strong><span>Total checks</span></div>
+      </div>
+      <p class="muted" id="readinessMessage">Complete your checks before setting off.</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading" style="margin-top:0">
+      <h2>Ride details</h2>
+      <span class="muted">Saved on this device</span>
+    </div>
+    <div class="ride-bar">
+      <div class="field">
+        <label for="rideName">Ride / trip name</label>
+        <input id="rideName" maxlength="100" placeholder="e.g. Solan to Chail">
+      </div>
+      <div class="field">
+        <label for="rideDate">Ride date</label>
+        <input id="rideDate" type="date">
+      </div>
+      <div class="field">
+        <label for="rideType">Ride type</label>
+        <select id="rideType">
+          <option value="Day ride">Day ride</option>
+          <option value="Mountain ride">Mountain ride</option>
+          <option value="Long-distance">Long-distance</option>
+          <option value="Multi-day tour">Multi-day tour</option>
+          <option value="Off-road adventure">Off-road adventure</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="saveDetails">Save ride details</button>
+      <button id="resetChecks">Reset checklist</button>
+      <button id="printButton">Print / Save PDF</button>
+    </div>
+  </section>
+
+  <div class="section-heading" id="checklists">
+    <h2>Pre-ride checklist</h2>
+    <span class="muted">Mark each item after checking it</span>
+  </div>
+
+  <div class="checklist-grid" id="checklistGrid"></div>
+
+  <section class="section-heading">
+    <h2>Emergency preparation</h2>
+    <span class="muted">Keep essentials ready</span>
+  </section>
+
+  <div class="two-col">
+    <section class="emergency-card">
+      <h3>🆘 Emergency contacts</h3>
+      <p class="muted">Optional contact details stored locally on this device.</p>
+      <div class="field">
+        <label for="emergencyName">Contact name</label>
+        <input id="emergencyName" maxlength="100" placeholder="Name">
+      </div>
+      <div class="field">
+        <label for="emergencyPhone">Contact phone</label>
+        <input id="emergencyPhone" type="tel" maxlength="40" placeholder="Phone number">
+      </div>
+      <div class="field">
+        <label for="assistancePhone">Roadside assistance number</label>
+        <input id="assistancePhone" type="tel" maxlength="40" placeholder="Optional">
+      </div>
+      <div class="actions">
+        <button class="primary" id="saveContacts">Save contacts</button>
+        <a class="btn" href="https://112.gov.in/" target="_blank" rel="noopener noreferrer">India emergency info ↗</a>
+      </div>
+      <p class="muted" style="font-size:.82rem">India's emergency number is 112. Confirm local emergency arrangements for your destination.</p>
+    </section>
+
+    <section class="emergency-card">
+      <h3>📝 Ride notes</h3>
+      <p class="muted">Record route notes, planned stops, meeting points or reminders.</p>
+      <div class="field">
+        <label for="rideNotes">Notes</label>
+        <textarea id="rideNotes" maxlength="3000" placeholder="Route, check-in plan, fuel stops, weather checks…"></textarea>
+      </div>
+      <div class="actions">
+        <button class="primary" id="saveNotes">Save notes</button>
+        <button id="clearNotes">Clear notes</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="actions no-print">
+    <button id="exportButton">Export backup (JSON)</button>
+    <button id="importButton">Import backup (JSON)</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
+  </div>
+
+  <div class="notice warning">
+    <strong>Safety first:</strong> Do not ride if tyres, brakes, steering, lights or other safety-critical components appear unsafe. A completed checklist does not guarantee roadworthiness. Follow your motorcycle manufacturer's manual and seek qualified mechanical help when needed.
+  </div>
+  <div class="notice">
+    <strong>Travel reminder:</strong> Before a mountain or long-distance ride, check current weather, road advisories, fuel range, mobile coverage and local access restrictions. Carry appropriate protective gear, water and first-aid supplies. Never use this checklist while riding.
+  </div>
+</main>
+
+<footer>
+  <strong>OTXS</strong> · Discover and Explore<br>
+  <a href="https://otxs.de">OTXS Home</a> · <a href="https://apps.otxs.de">Explore all apps</a><br>
+  <span>© <span id="year"></span> OTXS</span>
+</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "otxs_ride_safety_v1";
+const $ = id => document.getElementById(id);
+
+const checklistSections = [
+  {
+    id: "motorcycle",
+    title: "🏍️ Motorcycle inspection",
+    items: [
+      ["tyres", "Tyres and wheels", "Check visible damage, tread, pressure and wheel condition.", true],
+      ["brakes", "Brakes", "Check brake operation and look for leaks or unusual feel.", true],
+      ["lights", "Lights and indicators", "Check headlight, brake light, indicators and horn.", true],
+      ["chain", "Chain / final drive", "Check condition, lubrication and adjustment as specified by the manual.", true],
+      ["fluids", "Fluids and leaks", "Check oil, coolant if applicable, and visible leaks.", true],
+      ["controls", "Steering and controls", "Check throttle return, clutch, steering and mirrors.", true],
+      ["fuel", "Fuel and range", "Confirm fuel level and plan refuelling stops.", false],
+      ["stand", "Stand and fasteners", "Check stand operation and any obvious loose parts.", false],
+      ["battery", "Battery and electricals", "Check starting, battery condition and visible wiring.", false],
+      ["documents", "Vehicle documents", "Carry required licence, registration and insurance documents.", false]
+    ]
+  },
+  {
+    id: "rider",
+    title: "🪖 Rider and passenger gear",
+    items: [
+      ["helmet", "Properly fitted helmet", "Use a suitable, correctly fastened helmet.", true],
+      ["gloves", "Riding gloves", "Wear protective gloves with a secure fit.", true],
+      ["jacket", "Protective jacket and trousers", "Use suitable riding apparel for the journey.", false],
+      ["boots", "Protective footwear", "Wear sturdy footwear that protects feet and ankles.", false],
+      ["eyewear", "Eye protection", "Check visor or protective eyewear is clean and usable.", false],
+      ["passenger", "Passenger readiness", "Confirm passenger helmet, gear, footing and understanding of riding safety.", false],
+      ["luggage", "Secure luggage", "Secure bags and ensure they do not affect balance or controls.", false]
+    ]
+  },
+  {
+    id: "emergency",
+    title: "🧰 Emergency essentials",
+    items: [
+      ["firstaid", "First-aid kit", "Carry suitable first-aid supplies and know their limitations.", false],
+      ["phone", "Phone and power bank", "Charge devices and carry a charging option.", false],
+      ["water", "Water and food", "Pack water and suitable food for the route.", false],
+      ["repair", "Basic repair kit", "Carry tools and puncture equipment appropriate to your bike.", false],
+      ["visibility", "Visibility and rain gear", "Pack weather-appropriate and high-visibility equipment.", false],
+      ["documentscopy", "Emergency information", "Know how to access important contacts and required documents.", false],
+      ["assistance", "Roadside assistance", "Check available assistance details and coverage.", false]
+    ]
+  },
+  {
+    id: "route",
+    title: "🗺️ Route and conditions",
+    items: [
+      ["weather", "Weather checked", "Review a current forecast for the route and destination.", true],
+      ["roads", "Road conditions checked", "Check current closures, landslide alerts and access restrictions.", true],
+      ["routeplan", "Route and fuel stops", "Plan your route, refuelling points and reasonable breaks.", false],
+      ["checkin", "Check-in plan", "Tell someone your route and expected arrival time.", false],
+      ["rest", "Rider fit to ride", "Do not ride when exhausted, unwell, impaired or distracted.", true],
+      ["daylight", "Timing and daylight", "Consider visibility, daylight and safe stopping options.", false],
+      ["network", "Connectivity plan", "Consider poor network coverage and offline navigation options.", false]
+    ]
+  }
+];
+
+let state = loadState();
+let toastTimer;
+
+function initialState() {
+  const checks = {};
+  checklistSections.forEach(section => {
+    section.items.forEach(item => checks[item[0]] = false);
+  });
+  return {
+    ride: { name: "", date: new Date().toISOString().slice(0, 10), type: "Day ride" },
+    checks,
+    contacts: { name: "", phone: "", assistance: "" },
+    notes: ""
+  };
+}
+
+function loadState() {
+  const fresh = initialState();
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if (!saved || typeof saved !== "object") return fresh;
+
+    fresh.ride = { ...fresh.ride, ...(saved.ride || {}) };
+    fresh.contacts = { ...fresh.contacts, ...(saved.contacts || {}) };
+    fresh.notes = typeof saved.notes === "string" ? saved.notes : "";
+    if (saved.checks && typeof saved.checks === "object") {
+      Object.keys(fresh.checks).forEach(key => {
+        fresh.checks[key] = saved.checks[key] === true;
+      });
+    }
+    return fresh;
+  } catch (error) {
+    console.error("Could not load local safety checklist.", error);
+    return fresh;
+  }
+}
+
+function saveState(message = "Saved on this device.") {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    renderProgress();
+    showToast(message);
+    return true;
+  } catch (error) {
+    showToast("Could not save. Browser storage may be unavailable.");
+    console.error(error);
+    return false;
+  }
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.style.display = "none", 3000);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[ch]);
+}
+
+function renderChecklist() {
+  const grid = $("checklistGrid");
+  grid.innerHTML = checklistSections.map(section => `
+    <section class="checklist-card">
+      <h3>${section.title}</h3>
+      ${section.items.map(item => {
+        const [id, title, detail, critical] = item;
+        const checked = state.checks[id] === true;
+        return `
+          <label class="check-row ${checked ? "done" : ""}">
+            <input type="checkbox" data-check="${id}" ${checked ? "checked" : ""}>
+            <span>
+              ${escapeHTML(title)}
+              <small>${escapeHTML(detail)}</small>
+            </span>
+            ${critical ? '<span class="tag critical">Important</span>' : ""}
+          </label>`;
+      }).join("")}
+    </section>
+  `).join("");
+}
+
+function renderProgress() {
+  const all = checklistSections.flatMap(section => section.items);
+  const total = all.length;
+  const completed = all.filter(item => state.checks[item[0]] === true).length;
+  const criticalRemaining = all.filter(item =>
+    item[3] && state.checks[item[0]] !== true
+  ).length;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+
+  $("percent").textContent = percent;
+  $("progressBar").style.width = percent + "%";
+  $("progressLabel").textContent = `${completed} of ${total} checks completed`;
+  $("completedCount").textContent = completed;
+  $("criticalCount").textContent = criticalRemaining;
+  $("totalCount").textContent = total;
+
+  const message = $("readinessMessage");
+  if (criticalRemaining > 0) {
+    message.textContent = `${criticalRemaining} important checks remain. Review them before riding.`;
+    message.style.color = "var(--red)";
+  } else if (completed === total) {
+    message.textContent = "Checklist complete. Still make a final physical inspection.";
+    message.style.color = "var(--green)";
+  } else {
+    message.textContent = "Important checks marked complete. Finish the remaining items.";
+    message.style.color = "var(--yellow)";
+  }
+}
+
+function renderInputs() {
+  $("rideName").value = state.ride.name;
+  $("rideDate").value = state.ride.date;
+  $("rideType").value = state.ride.type;
+  $("emergencyName").value = state.contacts.name;
+  $("emergencyPhone").value = state.contacts.phone;
+  $("assistancePhone").value = state.contacts.assistance;
+  $("rideNotes").value = state.notes;
+}
+
+$("checklistGrid").addEventListener("change", event => {
+  const checkbox = event.target.closest("input[data-check]");
+  if (!checkbox) return;
+  state.checks[checkbox.dataset.check] = checkbox.checked;
+  const row = checkbox.closest(".check-row");
+  row.classList.toggle("done", checkbox.checked);
+  saveState("Checklist updated.");
+});
+
+$("saveDetails").addEventListener("click", () => {
+  state.ride.name = $("rideName").value.trim();
+  state.ride.date = $("rideDate").value;
+  state.ride.type = $("rideType").value;
+  saveState("Ride details saved.");
+});
+
+$("saveContacts").addEventListener("click", () => {
+  state.contacts.name = $("emergencyName").value.trim();
+  state.contacts.phone = $("emergencyPhone").value.trim();
+  state.contacts.assistance = $("assistancePhone").value.trim();
+  saveState("Emergency contact details saved.");
+});
+
+$("saveNotes").addEventListener("click", () => {
+  state.notes = $("rideNotes").value;
+  saveState("Ride notes saved.");
+});
+
+$("clearNotes").addEventListener("click", () => {
+  if (!confirm("Clear the saved ride notes?")) return;
+  state.notes = "";
+  $("rideNotes").value = "";
+  saveState("Ride notes cleared.");
+});
+
+$("resetChecks").addEventListener("click", () => {
+  if (!confirm("Mark all checklist items as incomplete? Your ride details and notes will remain saved.")) return;
+  Object.keys(state.checks).forEach(key => state.checks[key] = false);
+  renderChecklist();
+  saveState("Checklist reset.");
+});
+
+$("printButton").addEventListener("click", () => {
+  state.ride.name = $("rideName").value.trim();
+  state.ride.date = $("rideDate").value;
+  state.ride.type = $("rideType").value;
+  state.notes = $("rideNotes").value;
+  saveState("Preparing printable checklist.");
+  window.print();
+});
+
+$("appNav").addEventListener("change", event => {
+  if (event.target.value) window.location.href = event.target.value;
+});
+
+$("exportButton").addEventListener("click", () => {
+  state.ride.name = $("rideName").value.trim();
+  state.ride.date = $("rideDate").value;
+  state.ride.type = $("rideType").value;
+  state.contacts.name = $("emergencyName").value.trim();
+  state.contacts.phone = $("emergencyPhone").value.trim();
+  state.contacts.assistance = $("assistancePhone").value.trim();
+  state.notes = $("rideNotes").value;
+
+  if (!saveState("Preparing backup…")) return;
+
+  const backup = {
+    app: "OTXS Ride Safety & Readiness",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    data: state
+  };
+
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "otxs-ride-safety-backup.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+
+$("importButton").addEventListener("click", () => $("importFile").click());
+
+$("importFile").addEventListener("change", async event => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  try {
+    const parsed = JSON.parse(await file.text());
+    const imported = parsed.data || parsed;
+    if (!imported || typeof imported !== "object" || !imported.checks) {
+      throw new Error("This file does not appear to contain a valid OTXS safety backup.");
+    }
+
+    if (!confirm("Import this backup and replace the current ride checklist and saved details?")) return;
+
+    const fresh = initialState();
+    fresh.ride = { ...fresh.ride, ...(imported.ride || {}) };
+    fresh.contacts = { ...fresh.contacts, ...(imported.contacts || {}) };
+    fresh.notes = typeof imported.notes === "string" ? imported.notes.slice(0, 3000) : "";
+
+    Object.keys(fresh.checks).forEach(key => {
+      fresh.checks[key] = imported.checks[key] === true;
+    });
+
+    state = fresh;
+    if (saveState("Backup imported.")) {
+      renderChecklist();
+      renderInputs();
+    }
+  } catch (error) {
+    alert("Import failed: " + error.message);
+  } finally {
+    event.target.value = "";
+  }
+});
+
+$("year").textContent = new Date().getFullYear();
+renderChecklist();
+renderInputs();
+renderProgress();
+</script>
+</body>
+</html>
+
